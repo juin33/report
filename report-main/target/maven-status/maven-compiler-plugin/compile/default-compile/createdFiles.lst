@@ -1,3 +1,5 @@
+com/juin/report/service/UploadFileService.class
 com/juin/report/ReportApplication.class
-com/juin/report/controller/UploadFileController.class
 com/juin/report/beans/AssetContants.class
+com/juin/report/service/impl/UploadFileServiceImpl.class
+com/juin/report/controller/UploadFileController.class

@@ -49,8 +49,8 @@ public class UploadFileServiceImpl implements UploadFileService{
     @Override
     public void importExcel(String filePath) throws ParseException, IOException {
         HSSFWorkbook book = new HSSFWorkbook(new FileInputStream(ResourceUtils.getFile(filePath)));
-//        doSheet1(book);
-//        doSheet2(book);
+        doSheet1(book);
+        doSheet2(book);
         doSheet3(book);
     }
 
@@ -71,7 +71,7 @@ public class UploadFileServiceImpl implements UploadFileService{
             HSSFRow row = sheet.getRow(i);
             //流量
             if (null != row && null != row.getCell(0)) {
-                String key = AssetContants.getRealKey(row.getCell(0).getStringCellValue().replaceAll("\\s*", ""));
+                String key = row.getCell(0).getStringCellValue().replaceAll("\\s*", "");
                 try {
                     if (StringUtils.isNotBlank(key))
                         profitMap.put(key, row.getCell(3).getNumericCellValue());
@@ -81,7 +81,7 @@ public class UploadFileServiceImpl implements UploadFileService{
             }
 
             if (null != row && null != row.getCell(9)) {
-                String key = AssetContants.getRealKey(row.getCell(9).getStringCellValue().replaceAll("\\s*", ""));
+                String key = row.getCell(9).getStringCellValue().replaceAll("\\s*", "");
                 try {
                     if (StringUtils.isNotBlank(key))
                         profitMap.put(key, row.getCell(12).getNumericCellValue());
@@ -115,12 +115,13 @@ public class UploadFileServiceImpl implements UploadFileService{
                     if (StringUtils.isNotBlank(key))
                         profitMap.put(key, row.getCell(3).getNumericCellValue());
                 } catch (Exception e) {
-                    logger.error("error:{}", e);
+                    logger.error("key:{},error:{}", key,e);
                 }
             }
         }
-        String month = sheet.getRow(3).getCell(0).getStringCellValue().replace("年度","");
-        String orgName = sheet.getRow(5).getCell(0).getStringCellValue();
+        logger.info("profitMap:{}",profitMap);
+        String month = sheet.getRow(1).getCell(0).getStringCellValue().replace("年度","");
+        String orgName = sheet.getRow(3).getCell(0).getStringCellValue();
         profit = saveProfitResult(profitMap,profit);
         profit.setOrg_name(orgName);
         profit.setMonth(month);
@@ -304,11 +305,11 @@ public class UploadFileServiceImpl implements UploadFileService{
         profit.setEarnings_per_share(changeNum(map.get(AssetContants.PR_19.getMsg())));
         profit.setEarnings_per_share_basic(changeNum(map.get(AssetContants.PR_20.getMsg())));
         profit.setEarnings_per_share_attenuation(changeNum(map.get(AssetContants.PR_21.getMsg())));
+        profit.setOperating_outer_cost(changeNum(map.get(AssetContants.PR_22.getMsg())));
         return profit;
     }
 
     private Flow saveFlowResult(HashMap<String,Double> map,Flow flow){
-        flow.setCash_flow_from_operating_activities(changeNum(map.get(AssetContants.FW_01.getMsg())));
         flow.setSelling_goods_and_providing_services_cash(changeNum(map.get(AssetContants.FW_02.getMsg())));
         flow.setRefun_of_tax_levies(changeNum(map.get(AssetContants.FW_03.getMsg())));
         flow.setOther_cash_related_operating_activities(changeNum(map.get(AssetContants.FW_04.getMsg())));
@@ -319,7 +320,6 @@ public class UploadFileServiceImpl implements UploadFileService{
         flow.setPayment_other_cash_related_business_activities(changeNum(map.get(AssetContants.FW_09.getMsg())));
         flow.setCash_outflow_operating_activities(changeNum(map.get(AssetContants.FW_10.getMsg())));
         flow.setNet_cash_flow_from_operating_activities(changeNum(map.get(AssetContants.FW_11.getMsg())));
-        flow.setCash_flow_from_investment_activities(changeNum(map.get(AssetContants.FW_12.getMsg())));
         flow.setProceeds_from_sell_of_investment(changeNum(map.get(AssetContants.FW_13.getMsg())));
         flow.setCash_received_on_investment_income(changeNum(map.get(AssetContants.FW_14.getMsg())));
         flow.setNet_cash_fixed_intangible_other_long_term_assets(changeNum(map.get(AssetContants.FW_15.getMsg())));
@@ -332,7 +332,6 @@ public class UploadFileServiceImpl implements UploadFileService{
         flow.setPay_other_cash_related_to_investment_activities(changeNum(map.get(AssetContants.FW_22.getMsg())));
         flow.setCash_outflow_for_investment_activities(changeNum(map.get(AssetContants.FW_23.getMsg())));
         flow.setNet_cash_flow_from_investment_activities(changeNum(map.get(AssetContants.FW_24.getMsg())));
-        flow.setCash_flow_from_fundraising_activities(changeNum(map.get(AssetContants.FW_25.getMsg())));
         flow.setReceipts_equity_securities(changeNum(map.get(AssetContants.FW_26.getMsg())));
         flow.setSubsidiaries_receive_cash_from_minority_investors(changeNum(map.get(AssetContants.FW_27.getMsg())));
         flow.setReceipts_from_loan(changeNum(map.get(AssetContants.FW_28.getMsg())));
