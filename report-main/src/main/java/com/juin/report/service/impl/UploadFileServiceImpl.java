@@ -51,8 +51,8 @@ public class UploadFileServiceImpl implements UploadFileService{
     @Override
     public void importExcel(String filePath) throws ParseException, IOException {
         HSSFWorkbook book = new HSSFWorkbook(new FileInputStream(ResourceUtils.getFile(filePath)));
-        doSheet1(book);
-        doSheet2(book);
+//        doSheet1(book);
+//        doSheet2(book);
         doSheet3(book);
     }
 
@@ -79,14 +79,14 @@ public class UploadFileServiceImpl implements UploadFileService{
                 String key = row.getCell(9).getStringCellValue().replaceAll("\\s*", "");
                 try {
                     if (StringUtils.isNotBlank(key))
-                        profitMap.put(key, row.getCell(11).getNumericCellValue());
+                        profitMap.put(key, row.getCell(12).getNumericCellValue());
                 } catch (Exception e) {
                     logger.error("error:{}", e);
                 }
             }
         }
-        String month = sheet.getRow(1).getCell(0).getStringCellValue().replace("年度","");
-        String orgName = sheet.getRow(3).getCell(0).getStringCellValue();
+        String month = sheet.getRow(3).getCell(0).getStringCellValue().replace("年度","");
+        String orgName = sheet.getRow(5).getCell(0).getStringCellValue();
         flow = saveFlowResult(profitMap,flow);
         flow.setOrg_name(orgName);
         flow.setMonth(month);
