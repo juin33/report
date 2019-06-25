@@ -71,7 +71,7 @@ public class UploadFileServiceImpl implements UploadFileService{
             HSSFRow row = sheet.getRow(i);
             //流量
             if (null != row && null != row.getCell(0)) {
-                String key = row.getCell(0).getStringCellValue().replaceAll("\\s*", "");
+                String key = AssetContants.getRealKey(row.getCell(0).getStringCellValue().replaceAll("\\s*", ""));
                 try {
                     if (StringUtils.isNotBlank(key))
                         profitMap.put(key, row.getCell(3).getNumericCellValue());
@@ -81,7 +81,7 @@ public class UploadFileServiceImpl implements UploadFileService{
             }
 
             if (null != row && null != row.getCell(9)) {
-                String key = row.getCell(9).getStringCellValue().replaceAll("\\s*", "");
+                String key = AssetContants.getRealKey(row.getCell(9).getStringCellValue().replaceAll("\\s*", ""));
                 try {
                     if (StringUtils.isNotBlank(key))
                         profitMap.put(key, row.getCell(12).getNumericCellValue());
@@ -90,6 +90,7 @@ public class UploadFileServiceImpl implements UploadFileService{
                 }
             }
         }
+        logger.info("paramMap:{}",profitMap);
         String month = sheet.getRow(3).getCell(0).getStringCellValue().replace("年度","");
         String orgName = sheet.getRow(5).getCell(0).getStringCellValue();
         flow = saveFlowResult(profitMap,flow);
