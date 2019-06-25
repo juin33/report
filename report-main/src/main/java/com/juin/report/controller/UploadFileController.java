@@ -1,5 +1,6 @@
 package com.juin.report.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.juin.report.service.UploadFileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,5 +28,14 @@ public class UploadFileController {
     @RequestMapping(value = "/hello",method = RequestMethod.GET)
     public ResponseEntity<Object> hello(){
         return new ResponseEntity<Object>("hello", HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/query",method= {RequestMethod.GET,RequestMethod.POST})
+    @CrossOrigin
+    public ResponseEntity<Object> query(@RequestParam("order") String order,
+                                        @RequestParam("offset") String offset,
+                                        @RequestParam("limit") String limit){
+        logger.info("order:{},offset:{},limit:{}",order,offset,limit);
+        return new ResponseEntity<Object>(JSON.toJSONString(uploadFileService.queryFlow()),HttpStatus.OK);
     }
 }

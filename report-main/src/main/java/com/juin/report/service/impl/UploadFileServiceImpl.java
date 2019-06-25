@@ -2,10 +2,7 @@ package com.juin.report.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.juin.report.beans.AssetContants;
-import com.juin.report.dao.domain.Assents;
-import com.juin.report.dao.domain.Flow;
-import com.juin.report.dao.domain.Liabilities;
-import com.juin.report.dao.domain.Profit;
+import com.juin.report.dao.domain.*;
 import com.juin.report.dao.mapper.AssentsMapper;
 import com.juin.report.dao.mapper.FlowMapper;
 import com.juin.report.dao.mapper.LiabilitiesMapper;
@@ -30,6 +27,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author kejun
@@ -54,6 +52,13 @@ public class UploadFileServiceImpl implements UploadFileService{
 //        doSheet1(book);
 //        doSheet2(book);
         doSheet3(book);
+    }
+
+    @Override
+    public List<Flow> queryFlow() {
+        FlowCriteria criteria = new FlowCriteria();
+        criteria.createCriteria();
+        return flowMapper.selectByExample(criteria);
     }
 
     private void doSheet3(HSSFWorkbook book){
