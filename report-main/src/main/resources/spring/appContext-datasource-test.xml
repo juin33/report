@@ -33,6 +33,12 @@
 
     <bean id="sqlSessionFactoryBasisdata" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSourceTest"/>
+        <property name="configLocation" value="classpath:mybatis-cfg.xml"/>
+        <!--<property name="plugins">-->
+            <!--<array>-->
+                <!--<bean class="com.juin.report.core.DataAuthenticationPlugin"/>-->
+            <!--</array>-->
+        <!--</property>-->
         <property name="mapperLocations" value="classpath*:sqlmap/**/*.xml"/>
     </bean>
 

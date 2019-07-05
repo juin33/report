@@ -1,10 +1,13 @@
+com/juin/report/dao/mapper/UserMapper.class
 com/juin/report/dao/domain/ProfitCriteria$Criteria.class
 com/juin/report/dao/mapper/LiabilitiesMapper.class
+com/juin/report/dao/domain/User.class
 com/juin/report/dao/domain/Assents.class
 com/juin/report/dao/mapper/FlowMapper.class
 com/juin/report/dao/domain/ProfitCriteria$GeneratedCriteria.class
 com/juin/report/dao/domain/FlowCriteria$Criterion.class
 com/juin/report/dao/domain/Flow.class
+com/juin/report/dao/domain/UserCriteria$Criteria.class
 com/juin/report/dao/domain/FlowCriteria$Criteria.class
 com/juin/report/dao/domain/FlowCriteria.class
 com/juin/report/dao/domain/AssentsCriteria$Criterion.class
@@ -19,6 +22,9 @@ com/juin/report/dao/domain/Profit.class
 com/juin/report/dao/mapper/AssentsMapper.class
 com/juin/report/dao/domain/AssentsCriteria$GeneratedCriteria.class
 com/juin/report/dao/domain/FlowCriteria$GeneratedCriteria.class
+com/juin/report/dao/domain/UserCriteria$Criterion.class
 com/juin/report/dao/mapper/ProfitMapper.class
+com/juin/report/dao/domain/UserCriteria$GeneratedCriteria.class
 com/juin/report/dao/domain/LiabilitiesCriteria$Criteria.class
+com/juin/report/dao/domain/UserCriteria.class
 com/juin/report/dao/domain/LiabilitiesCriteria.class

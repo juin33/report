@@ -1,5 +1,6 @@
 package com.juin.report.service;
 
+import com.juin.report.beans.AssetFileds;
 import com.juin.report.dao.domain.Flow;
 
 import java.io.FileNotFoundException;
@@ -15,4 +16,6 @@ public interface UploadFileService {
     void importExcel(String filePath) throws ParseException, IOException;
 
     List<Flow> queryFlow();
+
+    List<AssetFileds> queryAssentFiledsByYear(String year,String orgName);
 }

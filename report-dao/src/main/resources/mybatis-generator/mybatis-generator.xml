@@ -51,9 +51,19 @@
             <!--<property name="useActualColumnNames" value="true"/>-->
         <!--</table>-->
 
-        <table schema="test" tableName="t_flow"
-               domainObjectName="Flow">
+        <!--<table schema="test" tableName="t_flow"-->
+               <!--domainObjectName="Flow">-->
+            <!--<property name="useActualColumnNames" value="true"/>-->
+        <!--</table>-->
+
+        <table schema="test" tableName="t_user"
+               domainObjectName="User">
             <property name="useActualColumnNames" value="true"/>
         </table>
     </context>
+    <plugins>
+        <plugin interceptor="com.juin.report.core.DataAuthenticationPlugin">
+            <property name="someProperty" value="100"/>
+        </plugin>
+    </plugins>
 </generatorConfiguration>

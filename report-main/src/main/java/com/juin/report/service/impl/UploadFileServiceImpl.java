@@ -2,6 +2,7 @@ package com.juin.report.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.juin.report.beans.AssetContants;
+import com.juin.report.beans.AssetFileds;
 import com.juin.report.dao.domain.*;
 import com.juin.report.dao.mapper.AssentsMapper;
 import com.juin.report.dao.mapper.FlowMapper;
@@ -14,8 +15,10 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ResourceUtils;
 
 import java.io.FileInputStream;
@@ -25,6 +28,7 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -59,6 +63,11 @@ public class UploadFileServiceImpl implements UploadFileService{
         FlowCriteria criteria = new FlowCriteria();
         criteria.createCriteria();
         return flowMapper.selectByExample(criteria);
+    }
+
+    @Override
+    public List<AssetFileds> queryAssentFiledsByYear(String year, String orgName) {
+        return null;
     }
 
     private void doSheet3(HSSFWorkbook book){
@@ -169,18 +178,21 @@ public class UploadFileServiceImpl implements UploadFileService{
                 }
             }
         }
-        Date month = changeDate(sheet.getRow(1).getCell(0).getStringCellValue());
+        String date = sheet.getRow(1).getCell(0).getStringCellValue();
+        Date month = changeDate(date);
         String orgName = sheet.getRow(3).getCell(0).getStringCellValue();
         //资产期末数
         aftAssent = saveAssetResult(aftAssentMap,aftAssent);
         aftAssent.setStatus((byte)1);
         aftAssent.setOrg_name(orgName);
         aftAssent.setMonth(month);
+        aftAssent.setYear_temp(getYear(date));
         //资产期初数
         preAssent = saveAssetResult(preAssentMap,preAssent);
         preAssent.setStatus((byte)0);
         preAssent.setOrg_name(orgName);
         preAssent.setMonth(month);
+        preAssent.setYear_temp(getYear(date));
         assentsMapper.insertSelective(preAssent);
         assentsMapper.insertSelective(aftAssent);
         logger.info("导入资产信息成功");
@@ -190,11 +202,13 @@ public class UploadFileServiceImpl implements UploadFileService{
         aftLiabs.setStatus((byte)1);
         aftLiabs.setOrg_name(orgName);
         aftLiabs.setMonth(month);
+        aftLiabs.setYear_temp(getYear(date));
         //负债期初数
         preLiabs = saveLiabilitiesResult(preLiabilitiesMap,preLiabs);
         preLiabs.setStatus((byte)0);
         preLiabs.setOrg_name(orgName);
         preLiabs.setMonth(month);
+        preLiabs.setYear_temp(getYear(date));
         liabilitiesMapper.insertSelective(preLiabs);
         liabilitiesMapper.insertSelective(aftLiabs);
         logger.info("导入负债信息成功");
@@ -209,6 +223,10 @@ public class UploadFileServiceImpl implements UploadFileService{
     private Date changeDate(String dateStr) throws ParseException {
         DateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
         return format.parse(dateStr);
+    }
+
+    private String getYear(String month){
+        return month.split("年")[0];
     }
 
     private Assents saveAssetResult(HashMap<String,Double> map,Assents assents){
